@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # Anchor extraction from HTML document
 import sys
+import time
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 
 def reveal_sources(source_file):
     for line in source_file:
-        print(line)
+        print("Getting links from " + line + "...")
         parse_for_links(line)
 
 def parse_for_links(site):
