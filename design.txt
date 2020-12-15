@@ -1,0 +1,23 @@
+
+
++++ Interaction Examples +++
+============================
+
+Return a list of topics found from sources with a generic:
+ - gmtn -a <sources file>
+Example:
+ - gmtn -a security
+
+Return a list of links found from sources:
+ - gmtn -l <sources file>
+Example:
+ - gmtn -l security
+
+Return a list of topics
+
++++ Topics +++
+========================
+
+I want to specify sources with a "source" file, composed of lists of sites to scrape data from.
+
+These sources would be titled something like "security" -- something like that.
