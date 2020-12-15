@@ -1,28 +1,42 @@
 #!/usr/bin/env python3
-# Anchor extraction from HTML document
-import sys
+import sys, time, os
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
-
-def reveal_sources(source_file):
-    for line in source_file:
-        print(line)
-        parse_for_links(line)
-
-def parse_for_links(site):
-    with urlopen(site) as response:
-        soup = BeautifulSoup(response, 'html.parser')
-        for anchor in soup.find_all('a'):
-            print(anchor.get('href', '/'))
-
 # for no options, I probably want to parse for common words somehow
 # Probably should use like... a hashmap? Or something?
 # I need to think of the algorithm for this -- how to pull out important words.
 # maybe cross reference words in URLs on the page, too. Since those will probably
 # contain keywords
 
+# A pointless middle-man function for calling many source files
+def reveal_sources(source_file):
+    for line in source_file:
+        print("Getting links from " + line)
+        time.sleep(1)
+        parse_for_links(line)
+
+# Do the parse-thing for link-things
+def parse_for_links(site):
+    with urlopen(site) as response:
+        soup = BeautifulSoup(response, 'html.parser')
+        for anchor in soup.find_all('a'):
+            print(anchor.get('href', '/'))
+
+# Error check entered command
+# will need to adjust to support mutliple entered files, unless I call it in a loop or something from main
+def source_file_check(source_file):
+    return os.path.isfile(source_file)
+
 def main(argv):
-    sources_path = "./sources/" + str(sys.argv[1])
+    if len(argv) < 1:
+        print("Please include a source!")
+        exit(1)
+
+    sources_path = "./sources/" + str(argv[0])
+    if source_file_check(sources_path) is False:
+        print("Sources file \"" + sources_path + "\" doesn't exist!")
+        exit(1)
+
     fp = open(sources_path, 'r')
     reveal_sources(fp)
     fp.close()
